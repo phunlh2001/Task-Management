@@ -1,0 +1,27 @@
+# Node.js
+frontend/node_modules
+frontend/npm-debug.log
+frontendyarn-error.log
+
+# .NET
+backend/bin/
+backend/obj/
+backend/backend.dll
+
+# Docker
+frontend/node_modules
+frontend/build
+backend/obj/
+backend/bin/
+docker-compose.override.yml
+docker-compose.debug.yml
+
+# Visual Studio Code
+*/.vscode/
+*/.vs/
+
+# Others
+*.log
+*.log.*
+*.sqlite
+.DS_Store
