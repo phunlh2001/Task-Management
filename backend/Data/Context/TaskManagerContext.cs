@@ -24,7 +24,6 @@ namespace backend.Data.Context
 
         public override DbSet<AppUser> Users { get; set; }
         public DbSet<UserWorkSpace> WorkSpaces { get; set; }
-        public DbSet<TaskTable> TaskTables { get; set; }
         public DbSet<TaskList> TaskLists { get; set; }
         public DbSet<TaskDetail> Details { get; set; }
 
@@ -46,9 +45,6 @@ namespace backend.Data.Context
         {
             modelBuilder.Entity<UserWorkSpace>()
             .ToTable("WorkSpace");
-
-            modelBuilder.Entity<TaskTable>()
-            .ToTable("TaskTable");
 
             modelBuilder.Entity<TaskList>()
             .ToTable("TaskList");

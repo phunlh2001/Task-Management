@@ -10,9 +10,9 @@ namespace backend.Models.Entities
         [StringLength(5000)]
         public string Title { get; set; }
         [Required]
-        public Guid TableId { get; set; }
-        [ForeignKey("TableId")]
-        public TaskTable OfTable { get; set; }
+        public Guid WorkSpaceId { get; set; }
+        [ForeignKey("WorkSpaceId")]
+        public UserWorkSpace OfWorkSpace { get; set; }
         public IEnumerable<TaskDetail> GetDetails { get; set; }
     }
 }

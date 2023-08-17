@@ -21,7 +21,7 @@ namespace backend.Models.Entities
         public string OwnerId { get; set; }
         [ForeignKey("OwnerId")]
         public AppUser Owner { get; set; }
-        public IEnumerable<TaskTable> UserTables { get; set; }
+        public IEnumerable<TaskList> GetTaskLists { get; set; }
 
     }
 }

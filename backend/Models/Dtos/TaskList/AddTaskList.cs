@@ -12,6 +12,6 @@ namespace backend.Models.Dtos.TaskList
         [StringLength(5000, ErrorMessage = "{0} cannot over {1} characters")]
         public string Title { get; set; }
         [Required]
-        public Guid TableId { get; set; }
+        public Guid WorkSpaceId { get; set; }
     }
 }

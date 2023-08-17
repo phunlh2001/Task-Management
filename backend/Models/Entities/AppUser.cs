@@ -11,7 +11,6 @@ namespace backend.Models.Entities
     {
         public string FullName { get; set; }
         public string? Address { get; set; }
-        public string? UserTheme { get; set; } = "not set";
         public string? UserAvatar { get; set; } = "not set";
 
         public bool IsDeleted { get; set; } = false;

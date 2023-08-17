@@ -9,6 +9,6 @@ namespace backend.Models.Dtos.TaskList
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public Guid TableId { get; set; }
+        public Guid WorkSpaceId { get; set; }
     }
 }
