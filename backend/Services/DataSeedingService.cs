@@ -29,7 +29,7 @@ namespace backend.Services
             return new Faker<UserWorkSpace>()
                 .RuleFor(e => e.OwnerId, f => user.Id )
                 .RuleFor(e => e.Title, f => f.Name.JobTitle())
-                .RuleFor(e => e.Description, f => f.Lorem.Paragraph())
+                .RuleFor(e => e.Description, f => f.Lorem.Paragraph(1))
                 .RuleFor(e => e.Title, f => f.Name.JobTitle())
                 .RuleFor(e => e.GetTaskLists, (f, e) =>
                 {
@@ -53,7 +53,7 @@ namespace backend.Services
         {
             return new Faker<TaskDetail>()
                 .RuleFor(e => e.ListId, f => listId)
-                .RuleFor(e => e.Detail, f => f.Lorem.Paragraph(10));
+                .RuleFor(e => e.Detail, f => f.Lorem.Paragraph(1));
                 
                 
         }
