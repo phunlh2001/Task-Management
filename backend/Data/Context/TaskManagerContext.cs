@@ -103,7 +103,9 @@ namespace backend.Data.Context
             var user = new AppUser
             {
                 UserName = "AdminSystem",
+                NormalizedUserName = "AdminSystem".ToUpper(),
                 Email = "SystemAdmin@123",
+                NormalizedEmail = "SystemAdmin@123".ToUpper(),
                 EmailConfirmed = true,
                 FullName = "Admin system 0"
 
@@ -115,6 +117,7 @@ namespace backend.Data.Context
                 dbroles.Add(new IdentityRole
                 {
                     Name = role,
+                    NormalizedName = role.ToUpper()
                 });
             }
 

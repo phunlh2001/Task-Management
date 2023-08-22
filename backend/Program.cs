@@ -9,6 +9,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(o=> {
         o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
+builder.Services.AddApplicationLayer();
 builder.Services.AddInfrastructure(Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -19,6 +20,7 @@ builder.Services.AddAuthenticationPolicies();
 
 
 var app = builder.Build();
+app.EnsureDataInit();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
