@@ -14,12 +14,13 @@ namespace backend.Models.Dtos.Authentication
         [StringLength(20, MinimumLength = 6, ErrorMessage = "{0} must be {2}-{1} characters.")]
         public string UserName { get; set; }
         [Required]
-        [RegularExpression(@"^[A-Z][a-z]*(\.[A-Z][a-z]*)*$", ErrorMessage = "Invalid {0}!")]
         public string FullName { get; set; }
         [Required]
+        [DataType(DataType.Password)]
         [RegularExpression(@"^[^\s]+$", ErrorMessage = "Invalid {0}!")]
         public string Password { get; set; }
         [Required]
+        [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password not match!")]
         public string ConfirmPassword { get; set; }
         [EmailAddress]

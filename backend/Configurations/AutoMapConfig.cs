@@ -1,4 +1,5 @@
 using AutoMapper;
+using backend.Models.Dtos.Authentication;
 using backend.Models.Dtos.TaskDetail;
 using backend.Models.Dtos.TaskList;
 using backend.Models.Dtos.UserWorkSpace;
@@ -19,6 +20,7 @@ namespace backend.Configurations
             CreateMap<TaskDetail, AddTaskDetail>().ReverseMap();
             CreateMap<TaskDetail, EditTaskDetail>().ReverseMap();
             CreateMap<TaskDetail, TaskDetailResult>().ReverseMap();
+            CreateMap<AppUser, RegisterModel>().ReverseMap();
         }
     }
 }

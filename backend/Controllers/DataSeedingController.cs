@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using backend.Models.Dtos;
 using backend.Services.Interfaces;
@@ -27,7 +28,7 @@ namespace backend.Controllers
             return Ok(new Response<string>{
                 Data = null,
                 Message = "Data has seeded",
-                StatusCode = 200
+                StatusCode = HttpStatusCode.OK
             });
         }
         [HttpGet("{number:int:min(0)}")]
@@ -38,7 +39,7 @@ namespace backend.Controllers
             return Ok(new Response<string>{
                 Data = null,
                 Message = "Data has seeded",
-                StatusCode = 200
+                StatusCode = HttpStatusCode.OK
             });
         }
         [HttpGet("{number:int:min(0)}")]
@@ -49,7 +50,7 @@ namespace backend.Controllers
             return Ok(new Response<string>{
                 Data = null,
                 Message = "Data has seeded",
-                StatusCode = 200
+                StatusCode = HttpStatusCode.OK
             });
         }
         

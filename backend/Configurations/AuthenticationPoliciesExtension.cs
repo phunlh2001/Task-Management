@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Data.Context;
+using backend.Defaults;
 using backend.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -18,7 +19,7 @@ namespace backend.Configurations
                 options.Password.RequireNonAlphanumeric = false; 
                 options.Password.RequireUppercase = false; 
                 options.Password.RequiredLength = 3; 
-                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequiredUniqueChars = 0;
 
                 
 
@@ -36,7 +37,8 @@ namespace backend.Configurations
                 options.SignIn.RequireConfirmedAccount = false;
             })
             .AddEntityFrameworkStores<TaskManagerContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(AppTokenProvider.Name);
 
             return services;
 
