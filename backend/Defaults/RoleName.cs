@@ -8,9 +8,11 @@ namespace backend.Defaults
     public class RoleName
     {
         public static readonly List<string> Roles = new (){
-            Member            
+            Member,
+            Admin            
         };
 
         public const string Member = "Member";
+        public const string Admin = "Admin";
     }
 }
