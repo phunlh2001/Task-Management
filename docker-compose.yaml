@@ -1,12 +1,27 @@
-version: '3.9'
+version: "3.9"
+
 services:
   frontend:
+    container_name: frontend
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
+
   backend:
+    container_name: backend
     build:
       context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "5000:80"
+
+  database:
+    container_name: sql_server
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "yourStrong@password"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
