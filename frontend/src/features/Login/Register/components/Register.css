@@ -131,52 +131,6 @@
     gap: 10px;
 }
 
-.ntf-box{
-    position: relative;
-    height: 70px;
-    width: 400px;
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    align-items: center;
-    padding-left: 28px;
-    font-size: 24px;
-    color: white;
-    border-radius: 4px;
-}
-
-.ntf-box hr{
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    width: 0%;
-    height: 5px;
-    border: none;
-}
-
-.warning-ntfc{
-    background-color: #f49091;
-    border-left: #ff0000 solid 5px;
-    animation: slidein  10000ms forwards cubic-bezier(0.37, 0.01, 0.48, 1.5);
-}
-
-.warning-ntfc hr{
-    background-color:#ff0000 ;
-    animation: widthAnimation 10s forwards;
-    animation-delay: 0.4s;
-}
-
-.messagevalid{
-    font-size: 12px;
-    height: 20px;
-    width: 100%;
-    padding: 0 40px;
-    color: red;
-    font-weight: 600;
- 
-}
-
 .register__eye{
     cursor: pointer;
 }

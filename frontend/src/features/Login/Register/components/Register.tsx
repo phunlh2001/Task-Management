@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import React, { useEffect, useState } from 'react'
 import './Register.css'
 // interface sapce
 type Props = {
@@ -20,6 +20,10 @@ const Register:React.FC<Props> = ({setShowRegister}) => {
   const [showRePass, setShowRePass] = useState(false)
 
 
+
+
+
+
   // KHUC VUC KHAI BAO BIEN =====================================================================================================
   const eyeIconPass = <FontAwesomeIcon icon={faEye} className='register__eye eye' onClick={e => setShowPass(!showPass)}/>
   const eyeIconRePass = <FontAwesomeIcon icon={faEye} className='register__eye eye' onClick={e => setShowRePass(!showRePass)}/>
@@ -27,6 +31,14 @@ const Register:React.FC<Props> = ({setShowRegister}) => {
   const eyeSlashRePass = <FontAwesomeIcon icon={faEyeSlash} className='register__eye eyeslash' onClick={e => setShowRePass(!showRePass)}/>
 
   // ===============================================  HANDLE SPACE  =========================================================
+
+
+
+
+
+
+
+
 
   // Ham check cac chu viet hoa tra ve true
   const containsUppercase = (str: string) => {
@@ -63,7 +75,7 @@ const Register:React.FC<Props> = ({setShowRegister}) => {
 
   // ham check repass
   const rePassValida = ()=>{
-    if (!(pass == repass)) {
+    if (!(pass === repass)) {
       setRepassVld("PassWord must be same")
     }
     else setRepassVld(""); return;
@@ -87,6 +99,13 @@ const Register:React.FC<Props> = ({setShowRegister}) => {
     else return
   }
 
+
+
+
+
+
+
+  
 
   // =============================  RENDERING HERE  ================================================================
   return (
