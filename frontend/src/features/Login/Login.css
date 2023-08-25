@@ -1,0 +1,134 @@
+.login_page {
+    height: 100vh;
+    width: 100%;
+    background-color: #4969fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_page .login {
+    height: 80%;
+    width: 80%;
+    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 3px;
+    border-radius: 10px;
+}
+
+.login__title {
+    flex: 1;
+    background-color: #315afd;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.login__title h1 {
+    color: white;
+    text-align: center;
+}
+
+.login__signin {
+    flex: 1;
+    background-color: #ffffff;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+.login__signin h1 {
+    color: #3a6bfc;
+}
+
+.form_login {
+    height: 50%;
+    width: 70%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+    gap: 20px;
+}
+
+.form_login .login__username {
+    border-bottom: solid #baccfd 2.5px;
+    width: 80%;
+}
+
+.form_login .login__password {
+    border-bottom: solid #baccfd 2.5px;
+    width: 80%;
+}
+
+.form_login span input {
+    border: none;
+    outline: none;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.btn_loginspace button {
+    border-radius: 4px;
+    background-color: #3a6bfc;
+    border: none;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    padding: 6px;
+    transition: all 0.5s;
+    cursor: pointer;
+    box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.7);
+}
+
+.btn_loginspace button {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.btn_loginspace button:after {
+    content: "»";
+    position: absolute;
+    opacity: 0;
+    top: 15%;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.btn_loginspace button:hover {
+    padding-right: 24px;
+    padding-left: 8px;
+}
+
+.btn_loginspace button:hover:after {
+    opacity: 1;
+    right: 10px;
+}
+
+.login__title__wavy{
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
+    background: linear-gradient(15deg,#3023AE 0%,#FF0099 100%);
+    width: 300px;
+    height: 300px;
+    box-shadow: -7vmin 7vmin #ffffff12;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}

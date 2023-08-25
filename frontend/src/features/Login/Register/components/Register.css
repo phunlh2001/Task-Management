@@ -1,0 +1,170 @@
+.register {
+    flex: 1;
+    background-color: #ffffff;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+.register h1{
+    color: #3a6bfc;
+}
+
+.register_box {
+    height: 50%;
+    width: 70%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+    user-select: none !important;
+}
+
+.form_login {
+    height: 50%;
+    width: 70%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+    gap: 20px;
+}
+
+.form_login .login__username {
+    border-bottom: solid #baccfd 2.5px;
+    width: 80%;
+}
+
+.form_login .login__password {
+    border-bottom: solid #baccfd 2.5px;
+    width: 80%;
+}
+
+.form_login span input {
+    border: none;
+    outline: none;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.register_box span {
+    border-bottom: solid #baccfd 2.5px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_login .login__password {
+    border-bottom: solid #baccfd 2.5px;
+    width: 80%;
+}
+
+.register_box span input {
+    border: none;
+    outline: none;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.register_btn{
+    border-radius: 4px;
+    background-color: #3a6bfc;
+    border: none;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    padding: 6px;
+    transition: all 0.5s;
+    cursor: pointer;
+    box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.7);
+}
+
+.register_btn {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+    margin: 10px 0 0 0;
+}
+
+.register_btn:after {
+    content: "»";
+    position: absolute;
+    opacity: 0;
+    top: 15%;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.register_btn:hover {
+    padding-right: 24px;
+    padding-left: 8px;
+}
+
+.register_btn:hover:after {
+    opacity: 1;
+    right: 10px;
+}
+
+.box-show{
+    position: fixed;
+    right: 8px;
+    top: 10px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.register__eye{
+    cursor: pointer;
+}
+
+.btn_register{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+@keyframes widthAnimation{
+    from{
+        width: 0%;
+    }
+    to{
+        width: 100%;
+    }
+}
+
+@keyframes slidein {
+  0% , 100%{
+    transform: translateX(130%);
+    opacity: 0;
+  }
+  20%, 90%{
+    transform: translateX(12%);
+    opacity: 1;
+  }
+  }
+
+@keyframes showOff{
+    to{
+        margin-left: 150%;
+    }
+}
