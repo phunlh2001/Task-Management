@@ -16,7 +16,7 @@ namespace backend.Data.Repositories
 
         public override async Task<List<UserWorkSpace>> GetAll()
         {
-            return await DbSet.AsNoTracking().AsQueryable()
+            return await All.AsNoTracking().AsQueryable()
                 .Include(e => e.Owner)
                 .OrderByDescending(e => e.CreatedDate)
                 .ToListAsync();
@@ -24,7 +24,7 @@ namespace backend.Data.Repositories
 
         public override async Task<UserWorkSpace> GetById(Guid id)
         {
-            return await DbSet.AsNoTracking().AsQueryable()
+            return await All.AsNoTracking().AsQueryable()
                 .Include(e => e.Owner)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
@@ -34,15 +34,13 @@ namespace backend.Data.Repositories
             return await Search(e => e.OwnerId == ownerId);
         }
 
-        public async Task<IEnumerable<UserWorkSpace>> SearchBookWithCategory(string searchedValue)
+        public override async Task<Guid?> Add(UserWorkSpace entity)
         {
-            return await DbSet.AsNoTracking().AsQueryable()
-                .Include(e => e.Owner)
-                .Where(e => e.Title.Contains(searchedValue) ||
-                            e.Owner.UserName.Contains(searchedValue) ||
-                            e.Owner.FullName.Contains(searchedValue) ||
-                            e.Description.Contains(searchedValue))
-                .ToListAsync();
+            DbSet.Add(entity);
+            await Db.SaveChangesAsync();
+            Console.WriteLine(entity.Id);
+            return entity.Id;
         }
+        
     }
 }

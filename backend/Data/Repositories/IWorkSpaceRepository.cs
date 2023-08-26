@@ -9,6 +9,6 @@ namespace backend.Data.Repositories
     public interface IWorkSpaceRepository: IRepository<UserWorkSpace>
     {
         Task<IEnumerable<UserWorkSpace>> GetUserWorkSpaces(string ownerId);
-        Task<IEnumerable<UserWorkSpace>> SearchBookWithCategory(string searchedValue);
+        
     }
 }
