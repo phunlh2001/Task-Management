@@ -12,27 +12,31 @@ namespace backend.Data.Repositories
         protected readonly TaskManagerContext Db;
 
         protected readonly DbSet<TEntity> DbSet;
+        protected readonly IQueryable<TEntity> All;
 
         protected Repository(TaskManagerContext db)
         {
             Db = db;
-            DbSet = (DbSet<TEntity>) db.Set<TEntity>().Where(e=>!e.IsDeleted);
+            DbSet = db.Set<TEntity>();
+            All = DbSet.Where(e=>!e.IsDeleted);
         }
 
         public async Task<IEnumerable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate)
         {
-            return await DbSet.AsNoTracking()
+            return await All.AsNoTracking()
                     .Where(predicate).ToListAsync();
         }
 
         public virtual async Task<TEntity> GetById(Guid id)
         {
-            return await DbSet.FindAsync(id);
+            var entity = await DbSet.FindAsync(id);
+            if(entity==null || entity.IsDeleted) return null;
+            return entity;
         }
 
         public virtual async Task<List<TEntity>> GetAll()
         {
-            return await DbSet.ToListAsync();
+            return await All.ToListAsync();
         }
 
         public virtual async Task Add(TEntity entity)

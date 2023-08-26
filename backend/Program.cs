@@ -7,16 +7,18 @@ ConfigurationManager Configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddControllers()
     .AddJsonOptions(o=> {
-        o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        o.JsonSerializerOptions.PropertyNamingPolicy = null;
     });
+
 builder.Services.AddApplicationLayer();
 builder.Services.AddInfrastructure(Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerExtension();
 builder.Services.AddCors();
 
 builder.Services.AddAuthenticationPolicies();
+builder.Services.AddJWTAuthentication(Configuration);
 
 
 var app = builder.Build();

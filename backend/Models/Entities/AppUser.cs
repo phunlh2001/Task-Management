@@ -10,7 +10,7 @@ namespace backend.Models.Entities
     public class AppUser: IdentityUser, IBaseEntityDetail
     {
         public string FullName { get; set; }
-        public string? Address { get; set; }
+        public string? Address { get; set; } = "not set";
         public string? UserAvatar { get; set; } = "not set";
 
         public bool IsDeleted { get; set; } = false;
