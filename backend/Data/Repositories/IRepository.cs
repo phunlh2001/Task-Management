@@ -6,7 +6,7 @@ namespace backend.Data.Repositories
 {
     public interface IRepository<TEntity> : IDisposable where TEntity :class, IBaseEntityDetail
     {
-        Task<bool> IsExist(string id);
+        Task<bool> IsExist(Guid id);
         Task<Guid?> Add(TEntity entity);
         Task<List<TEntity>> GetAll();
         Task<TEntity> GetById(Guid id);

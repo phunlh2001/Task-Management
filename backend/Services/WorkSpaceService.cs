@@ -34,7 +34,7 @@ namespace backend.Services
         public async Task<Guid?> CreateAsync(AddWorkSpace model, string username){
             var entity = _mapper.Map<UserWorkSpace>(model);
             var user = await _userRepo.GetByUserNameAsync(username);
-            if(!await _userRepo.IsExist(user.Id)){
+            if(!await _userRepo.IsExist(new Guid(user.Id))){
                 return null;
             }
             entity.OwnerId = user.Id;
@@ -42,7 +42,7 @@ namespace backend.Services
         }
 
         public async Task<bool> UpdateAsync(EditWorkSpace model){
-            if(!await _workspaceRepo.IsExist(model.Id.ToString())) return false;
+            if(!await _workspaceRepo.IsExist(model.Id)) return false;
             var entityNew = _mapper.Map<UserWorkSpace>(model);
             await _workspaceRepo.Update(entityNew);
 
@@ -50,7 +50,7 @@ namespace backend.Services
         }
 
         public async Task<bool> DeleteAsync(Guid id){
-            if(!await _workspaceRepo.IsExist(id.ToString())) return false;
+            if(!await _workspaceRepo.IsExist(id)) return false;
             await _workspaceRepo.Remove(await _workspaceRepo.GetById(id));
 
             return true;

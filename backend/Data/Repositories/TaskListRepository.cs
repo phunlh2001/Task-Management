@@ -14,28 +14,35 @@ namespace backend.Data.Repositories
         {
         }
 
+        
+
         public override async Task<List<TaskList>> GetAll()
         {
-            return await DbSet.AsNoTracking().AsQueryable()
+            return await All.AsNoTracking()
                 .Include(e => e.OfWorkSpace)
-                .OrderByDescending(e => e.Order)
+                .OrderBy(e => e.Order)
                 .ToListAsync();
         }
         
         public async Task<List<TaskList>> GetByWorkSpace(Guid workSpaceId)
         {
-            return await DbSet.AsNoTracking().AsQueryable()
-                .Include(e => e.OfWorkSpace)
-                .Where(e => e.WorkSpaceId == workSpaceId)
-                .OrderByDescending(e => e.Order)
-                .ToListAsync();
+            return (await Search(e => e.WorkSpaceId == workSpaceId))
+            .OrderByDescending(e=> e.Order)
+            .ToList();
         }
 
         public override async Task<TaskList> GetById(Guid id)
         {
-            return await DbSet.AsNoTracking().AsQueryable()
+            return await All.AsNoTracking()
                 .Include(e => e.OfWorkSpace)
                 .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public virtual async Task<Guid?> Add(TaskList entity)
+        {
+            DbSet.Add(entity);
+            await SaveChanges();
+            return entity.Id;
         }
 
     }

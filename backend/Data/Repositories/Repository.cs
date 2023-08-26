@@ -20,9 +20,9 @@ namespace backend.Data.Repositories
             DbSet = db.Set<TEntity>();
             All = DbSet.Where(e=>!e.IsDeleted);
         }
-        public virtual async Task<bool> IsExist(string id){
+        public virtual async Task<bool> IsExist(Guid id){
             try{
-                var entity = await GetById(new Guid(id));
+                var entity = await GetById(id);
                 if(entity == null || entity.IsDeleted) return false;
 
             }catch(Exception e){

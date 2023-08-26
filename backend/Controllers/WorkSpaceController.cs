@@ -49,7 +49,7 @@ namespace backend.Controllers
             });
         }
 
-        [HttpGet("{id:Guid}")]
+        [HttpGet]
         [ProducesResponseType(typeof(Response<List<WorkSpaceResult>>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByUser([FromQuery]string username)
@@ -92,7 +92,7 @@ namespace backend.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Create(AddWorkSpace model)
+        public async Task<IActionResult> Create([FromBody]AddWorkSpace model)
         {
             if (!ModelState.IsValid) return BadRequest();
             var rs = await _workSpaceService.CreateAsync(model, User.Identity.Name);
@@ -110,9 +110,9 @@ namespace backend.Controllers
             );
         }
 
-        [HttpPut("{id:Guid}")]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update(EditWorkSpace model)
+        public async Task<IActionResult> Update([FromBody]EditWorkSpace model)
         {
             if (!ModelState.IsValid) return BadRequest();
             var result = await _workSpaceService.UpdateAsync(model);
@@ -127,7 +127,7 @@ namespace backend.Controllers
 
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete([FromRoute]Guid id)
         {
             if (id == null) return NotFound();
             var result = await _workSpaceService.DeleteAsync(id);
