@@ -55,7 +55,10 @@ namespace backend.Services
 
             return true;
         }
-        
 
+        public async Task<List<WorkSpaceResult>> GetByUserAsync(string id)
+        {
+            return _mapper.Map<List<WorkSpaceResult>>(await _workspaceRepo.GetUserWorkSpaces(id));
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using backend.Data.Repositories;
 using backend.Models.Dtos;
 using backend.Models.Dtos.UserWorkSpace;
+using backend.Models.Entities;
 using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,17 +20,20 @@ namespace backend.Controllers
     public class WorkSpaceController : ControllerBase
     {
         private readonly IWorkSpaceService _workSpaceService;
+        private readonly IAuthenticationService _authenService;
 
         public WorkSpaceController(IWorkSpaceService workSpaceService
-        )
+            , IAuthenticationService authenService)
         {
             _workSpaceService = workSpaceService;
-            
+            _authenService = authenService;
         }
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<WorkSpaceResult>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get([FromRoute]Guid id)
         {
             if (id == null) return BadRequest();
@@ -45,15 +49,35 @@ namespace backend.Controllers
             });
         }
 
+        [HttpGet("{id:Guid}")]
+        [ProducesResponseType(typeof(Response<List<WorkSpaceResult>>),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetByUser([FromQuery]string username)
+        {
+            var user = await _authenService.GetUserAsync(username);
+            if (user == null) return NotFound();
+
+            var rs = await _workSpaceService.GetByUserAsync(user.Id);
+            if (rs == null || !rs.Any()) return NotFound();
+
+            return Ok(new Response<List<WorkSpaceResult>>
+            {
+                StatusCode = HttpStatusCode.OK,
+                Message = $"WorkSpace of {username} content:",
+                Data = rs
+            });
+        }
+
         [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
             var rs = await _workSpaceService.GetAllAsync();
             if(rs == null) return StatusCode(StatusCodes.Status500InternalServerError);
             if(!rs.Any()) return Ok(new Response<List<WorkSpaceResult>>{
-                StatusCode =HttpStatusCode.OK,
+                StatusCode = HttpStatusCode.OK,
                 Message = "Empty list",
                 Data = rs
             });
