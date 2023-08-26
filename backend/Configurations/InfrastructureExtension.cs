@@ -15,6 +15,8 @@ namespace backend.Configurations
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddScoped<TaskManagerContext>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IWorkSpaceRepository, WorkSpaceRepository>();

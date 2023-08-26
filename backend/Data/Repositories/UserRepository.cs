@@ -27,6 +27,8 @@ namespace backend.Data.Repositories
             _configuration = configuration;
         }
 
+        
+
         public async Task<AppUser> GetByUserNameAsync(string username){
             var user = await _userManager.FindByNameAsync(username);
             if (user == null || user.IsDeleted) return null;
@@ -73,13 +75,13 @@ namespace backend.Data.Repositories
         
 
 
-        public async Task<bool> SetTokenAsync(AppUser user, string token){
+        public async Task<bool> SetRefreshTokenAsync(AppUser user, string token){
             var rs  = await _userManager.SetAuthenticationTokenAsync(user, AppTokenProvider.Name, TokenType.RefreshToken, token);
             if(!rs.Succeeded) return false;
             return true;
         }
 
-        public async Task<string?> GetTokenAsync(AppUser user){
+        public async Task<string?> GetRefreshTokenAsync(AppUser user){
             return await _userManager.GetAuthenticationTokenAsync(user, AppTokenProvider.Name, TokenType.RefreshToken);
         }
 
@@ -88,30 +90,56 @@ namespace backend.Data.Repositories
             return rs.Succeeded;
         }
 
-        
-
-        public async Task<bool> IsValidToRefreshTokenAsync(string accesToken, string refreshToken){
-            if(string.IsNullOrEmpty(accesToken)) return false;
-            var principal = _jwtProvider.GetPrincipalOfIssuedToken(accesToken);
+        public async Task<bool> IsValidAccessToken(string accessToken){
+            if(string.IsNullOrEmpty(accessToken)) return false;
+            var principal = _jwtProvider.GetPrincipalOfIssuedToken(accessToken);
             if(principal == null) return false;
-            Console.WriteLine(principal.Identity.Name);
-            var user = await _userManager.FindByNameAsync(principal.Identity.Name);
-
-            if(user == null || await GetTokenAsync(user) != refreshToken 
-                || _jwtProvider.GetExpiryDate(accesToken) <= DateTime.Now)
-                return false;
-
+            Console.WriteLine("Access token ok");
             return true;
         }
 
-        public async Task<TokenModel> GenerateAccessTokenAsync(AppUser user){
+        public async Task<bool> IsValidRefreshToken(string refreshToken, string username){
+            if(string.IsNullOrEmpty(refreshToken)) return false;
+            Console.WriteLine("Refresh token here");
+            
+            var user = await _userManager.FindByNameAsync(username);
+            Console.WriteLine("Refresh token: "+ user.NormalizedUserName);
+
+            if(user == null || await GetRefreshTokenAsync(user) != refreshToken)
+                return false;
+            Console.WriteLine("Refresh token ok");
+            return true;
+        }
+
+        
+
+        public DateTime? GetExpiryDate(string accessToken){
+            return _jwtProvider.GetExpiryDate(accessToken);
+        }
+
+        public async Task<string> GetNewAccessTokenAsync(AppUser user){
+            if(user != null){
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                };
+                foreach (var userRole in userRoles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, userRole));
+                }
+                return _jwtProvider.GenerateAccessToken(claims);
+            }
+            return null;
+        }
+
+        public async Task<TokenModel> GenerateTokensAsync(AppUser user){
             
             if(user != null){
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, "Manager")
                 };
                 foreach (var userRole in userRoles)
                 {
@@ -119,7 +147,7 @@ namespace backend.Data.Repositories
                 }
                 var accessToken = _jwtProvider.GenerateAccessToken(claims);
                 var refreshToken = _jwtProvider.GenerateRefreshToken();
-                await SetTokenAsync(user, refreshToken);
+                await SetRefreshTokenAsync(user, refreshToken);
                 _ = int.TryParse(_configuration["JWT:RefreshTokenValidityInDays"], out int refreshTokenValidityInDays);
 
                 return new TokenModel{
@@ -130,5 +158,7 @@ namespace backend.Data.Repositories
             }
             return null;
         }
+
+        
     }
 }

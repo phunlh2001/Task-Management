@@ -12,10 +12,13 @@ namespace backend.Data.Repositories
         Task<AppUser> GetByUserNameAsync(string username);
         Task<bool> ValidateLogin(AppUser user, string password);
         Task<bool> RegistNewUser(AppUser user, string password, IEnumerable<string> roles);
-        Task<bool> IsValidToRefreshTokenAsync(string accesToken, string refreshToken);
-        Task<bool> SetTokenAsync(AppUser user, string token);
-        Task<string?> GetTokenAsync(AppUser user);
+        Task<bool> IsValidRefreshToken(string refreshToken, string username);
+        Task<bool> IsValidAccessToken(string accessToken);
+        Task<bool> SetRefreshTokenAsync(AppUser user, string token);
+        Task<string?> GetRefreshTokenAsync(AppUser user);
         Task<bool> RemoveTokenAsync(AppUser user);
-        Task<TokenModel> GenerateAccessTokenAsync(AppUser user);
+        Task<TokenModel> GenerateTokensAsync(AppUser user);
+        DateTime? GetExpiryDate(string accessToken);
+        Task<string> GetNewAccessTokenAsync(AppUser user);
     }
 }

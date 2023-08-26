@@ -4,9 +4,10 @@ using backend.Models.Interfaces;
 
 namespace backend.Data.Repositories
 {
-    public interface IRepository<TEntity> : IDisposable where TEntity : IBaseEntityDetail
+    public interface IRepository<TEntity> : IDisposable where TEntity :class, IBaseEntityDetail
     {
-        Task Add(TEntity entity);
+        Task<bool> IsExist(string id);
+        Task<Guid?> Add(TEntity entity);
         Task<List<TEntity>> GetAll();
         Task<TEntity> GetById(Guid id);
         Task Update(TEntity entity);

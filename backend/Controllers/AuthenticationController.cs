@@ -19,12 +19,19 @@ namespace backend.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _userService;
-        private readonly IMapper _map;
 
-        public AuthenticationController(IAuthenticationService userService, IMapper map)
+        public AuthenticationController(IAuthenticationService userService)
         {
             _userService = userService;
-            _map = map;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> IsValidUserName([FromQuery]string userName)
+        {
+            if (await _userService.IsDuplicateUserName(userName)) return BadRequest();
+            return Ok();
         }
 
         [HttpPost]
@@ -46,11 +53,13 @@ namespace backend.Controllers
             });
         }
 
+        
+
 
         [HttpPost]
         [ProducesResponseType(typeof(Response<string>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RegisterUser(RegisterModel model)
+        public async Task<IActionResult> RegisterUser([FromBody]RegisterModel model)
         {
             if(!ModelState.IsValid) return BadRequest();
             if(await _userService.RegisterMemberAsync(model) == false){
@@ -64,13 +73,16 @@ namespace backend.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(Response<string>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<TokenModel>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> RefreshToken(TokenModel model)
+        public async Task<IActionResult> RefreshToken([FromBody]string refreshToken)
         {
-            if(!ModelState.IsValid) return BadRequest();
-            var tokens = await _userService.RefreshTokenAsync(model,User.Identity.Name);
+            var accessToken = _userService.ExtractAccessTokenFromRequest(Request);
+            if(!await _userService.ValidateAccessToken(accessToken)
+            || !await _userService.ValidateRefreshToken(refreshToken, User.Identity.Name)
+            ) return BadRequest();
+            var tokens = await _userService.RefreshTokenAsync(accessToken, refreshToken ,User.Identity.Name);
+
             if(tokens == null){
                 return BadRequest(new Response<string>
                 {
@@ -89,8 +101,8 @@ namespace backend.Controllers
         [HttpDelete]
         [Authorize]
         [ProducesResponseType(typeof(Response<string>),StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RevokeToken()
         {
             if(!await _userService.RevokeTokenAsync(User.Identity.Name)){
@@ -105,6 +117,8 @@ namespace backend.Controllers
 
         [Authorize]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> TestAccess()
         {
             
@@ -113,6 +127,21 @@ namespace backend.Controllers
             {
                 Message = "Access!",
                 StatusCode = HttpStatusCode.OK
+            });
+        }
+        
+        [Authorize]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> WhoAmI()
+        {
+            
+            return Ok(new Response<string>
+            {
+                Message = "User name is:",
+                StatusCode = HttpStatusCode.OK,
+                Data = User.Identity.Name
             });
         }
 
