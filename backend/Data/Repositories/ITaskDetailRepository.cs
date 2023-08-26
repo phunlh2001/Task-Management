@@ -8,6 +8,6 @@ namespace backend.Data.Repositories
 {
     public interface ITaskDetailRepository: IRepository<TaskDetail>
     {
-        
+        Task<List<TaskDetail>> GetByList(Guid listId);
     }
 }
