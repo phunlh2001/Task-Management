@@ -59,30 +59,34 @@ namespace backend.Services
             return await _urepo.RemoveTokenAsync(user);
         }
 
-        public async Task<bool> ValidateRefreshToken(string token, string username){
-            return await _urepo.IsValidRefreshToken(token, username);
+        public async Task<bool> ValidateRefreshToken(string refreshToken, string accessToken){
+            var user = await _urepo.GetByAccessTokenAsync(accessToken);
+            return await _urepo.IsValidRefreshToken(refreshToken, user);
         }
+
         public async Task<bool> ValidateAccessToken(string token){
             return await _urepo.IsValidAccessToken(token);
         }
 
-        public async Task<TokenModel> RefreshTokenAsync(string accessToken, string refreshToken, string username){
-            if(_urepo.GetExpiryDate(accessToken) > DateTime.Now){
-                var user = await _urepo.GetByUserNameAsync(username);
+        public async Task<TokenModel> RefreshTokenAsync(string accessToken, string refreshToken){
+                var user = await _urepo.GetByAccessTokenAsync(accessToken);
                 var newAccessToken = await _urepo.GetNewAccessTokenAsync(user);
                 return new TokenModel{
                     AccessToken = newAccessToken,
-                    RefreshToken = await _urepo.GetRefreshTokenAsync(user),
+                    RefreshToken = refreshToken,
                     ExpiresIn = (DateTime)_urepo.GetExpiryDate(newAccessToken)
                 };
-            }
-            return null;
         }
 
         public string? ExtractAccessTokenFromRequest(HttpRequest context)
         {
             if(string.IsNullOrWhiteSpace(context.Headers.Authorization)) return null;
             return context.Headers.Authorization.ToString()["Bearer ".Length..];
+        }
+
+        public async Task<AppUser?> GetUserAsync(string username)
+        {
+            return await _urepo.GetByUserNameAsync(username);
         }
     }
 }

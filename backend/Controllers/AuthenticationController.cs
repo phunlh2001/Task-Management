@@ -78,10 +78,11 @@ namespace backend.Controllers
         public async Task<IActionResult> RefreshToken([FromBody]string refreshToken)
         {
             var accessToken = _userService.ExtractAccessTokenFromRequest(Request);
+            Console.WriteLine("token lengh is: "+accessToken.Length);
             if(!await _userService.ValidateAccessToken(accessToken)
-            || !await _userService.ValidateRefreshToken(refreshToken, User.Identity.Name)
+            || !await _userService.ValidateRefreshToken(refreshToken, accessToken)
             ) return BadRequest();
-            var tokens = await _userService.RefreshTokenAsync(accessToken, refreshToken ,User.Identity.Name);
+            var tokens = await _userService.RefreshTokenAsync(accessToken, refreshToken);
 
             if(tokens == null){
                 return BadRequest(new Response<string>

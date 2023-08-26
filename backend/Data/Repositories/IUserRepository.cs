@@ -10,9 +10,10 @@ namespace backend.Data.Repositories
     public interface IUserRepository: IRepository<AppUser>
     {
         Task<AppUser> GetByUserNameAsync(string username);
+        Task<AppUser> GetByAccessTokenAsync(string accessToken);
         Task<bool> ValidateLogin(AppUser user, string password);
         Task<bool> RegistNewUser(AppUser user, string password, IEnumerable<string> roles);
-        Task<bool> IsValidRefreshToken(string refreshToken, string username);
+        Task<bool> IsValidRefreshToken(string refreshToken, AppUser user);
         Task<bool> IsValidAccessToken(string accessToken);
         Task<bool> SetRefreshTokenAsync(AppUser user, string token);
         Task<string?> GetRefreshTokenAsync(AppUser user);

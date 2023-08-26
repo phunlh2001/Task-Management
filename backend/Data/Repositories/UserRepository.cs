@@ -98,16 +98,12 @@ namespace backend.Data.Repositories
             return true;
         }
 
-        public async Task<bool> IsValidRefreshToken(string refreshToken, string username){
-            if(string.IsNullOrEmpty(refreshToken)) return false;
-            Console.WriteLine("Refresh token here");
+        public async Task<bool> IsValidRefreshToken(string refreshToken, AppUser user){
+            if(string.IsNullOrWhiteSpace(refreshToken) 
+            || user == null
+            || await GetRefreshTokenAsync(user) != refreshToken) return false;
             
-            var user = await _userManager.FindByNameAsync(username);
-            Console.WriteLine("Refresh token: "+ user.NormalizedUserName);
-
-            if(user == null || await GetRefreshTokenAsync(user) != refreshToken)
-                return false;
-            Console.WriteLine("Refresh token ok");
+            Console.WriteLine("Refresh token of: "+ user.NormalizedUserName);
             return true;
         }
 
@@ -159,6 +155,12 @@ namespace backend.Data.Repositories
             return null;
         }
 
-        
+        public async Task<AppUser?> GetByAccessTokenAsync(string accessToken)
+        {
+            if(!await IsValidAccessToken(accessToken)) return null;
+            var principal = _jwtProvider.GetPrincipalOfIssuedToken(accessToken);
+            if(principal==null || string.IsNullOrWhiteSpace(principal.Identity.Name)) return null;
+            return await _userManager.FindByNameAsync(principal.Identity.Name);
+        }
     }
 }
