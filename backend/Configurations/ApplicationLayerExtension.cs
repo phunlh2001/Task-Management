@@ -15,6 +15,8 @@ namespace backend.Configurations
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IDataSeedingService, DataSeedingService>();
             services.AddScoped<IWorkSpaceService, WorkSpaceService>();
+            services.AddScoped<ITaskListService, TaskListService>();
+            services.AddScoped<ITaskDetailService, TaskDetailService>();
             
             services.AddScoped<JWTTokenProvider>();
 
