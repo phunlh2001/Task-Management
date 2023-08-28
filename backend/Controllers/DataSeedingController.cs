@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using backend.Defaults;
 using backend.Models.Dtos;
 using backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [ApiController]
+    [Authorize(Roles = RoleName.Admin)]
     [Route("api/[controller]/Seed/[action]")]
     public class DataSeedingController : ControllerBase
     {

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data.Repositories
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IBaseEntityDetail
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :class, IBaseEntityDetail
     {
         protected readonly TaskManagerContext Db;
 
@@ -20,6 +20,19 @@ namespace backend.Data.Repositories
             DbSet = db.Set<TEntity>();
             All = DbSet.Where(e=>!e.IsDeleted);
         }
+        public virtual async Task<bool> IsExist(string id){
+            try{
+                var entity = await GetById(new Guid(id));
+                if(entity == null || entity.IsDeleted) return false;
+
+            }catch(Exception e){
+                Console.WriteLine("Repository error: "+e.Message);
+                return false;
+            }
+            return true;
+        }
+
+        
 
         public async Task<IEnumerable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate)
         {
@@ -39,10 +52,11 @@ namespace backend.Data.Repositories
             return await All.ToListAsync();
         }
 
-        public virtual async Task Add(TEntity entity)
+        public virtual async Task<Guid?> Add(TEntity entity)
         {
             DbSet.Add(entity);
             await SaveChanges();
+            return default;
         }
 
         public virtual async Task Update(TEntity entity)
@@ -55,7 +69,7 @@ namespace backend.Data.Repositories
         public virtual async Task Remove(TEntity entity)
         {
             entity.IsDeleted = true;
-            entity.LastModify = DateTime.Now;
+            entity.DeletedDate = DateTime.Now;
             DbSet.Update(entity);
             await SaveChanges();
         }

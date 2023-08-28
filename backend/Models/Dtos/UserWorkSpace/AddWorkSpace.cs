@@ -14,7 +14,7 @@ namespace backend.Models.Dtos.UserWorkSpace
         [Required]
         [StringLength(3000, ErrorMessage = "The field {0} cannot over {1} characters")]
         public string Description { get; set; }
-        [Required]
-        public string OwnerId { get; set; }
+        // [Required]
+        // public string OwnerId { get; set; }
     }
 }
