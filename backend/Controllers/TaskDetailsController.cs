@@ -13,14 +13,31 @@ namespace backend.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/[controller]/[action]")]
-    public class TaskDetailController : ControllerBase
+    [Route("api/[controller]")]
+    public class TaskDetailsController : ControllerBase
     {
         private readonly ITaskDetailService _detailService;
 
-        public TaskDetailController(ITaskDetailService detailService)
+        public TaskDetailsController(ITaskDetailService detailService)
         {
             _detailService = detailService;
+        }
+
+        [HttpGet("[action]/{listId:Guid}")]
+        [ProducesResponseType(typeof(Response<List<TaskDetailResult>>),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetByList([FromRoute]Guid listId)
+        {
+
+            var rs = await _detailService.GetByListAsync(listId);
+            if (rs == null || !rs.Any()) return NotFound();
+
+            return Ok(new Response<List<TaskDetailResult>>
+            {
+                StatusCode = HttpStatusCode.OK,
+                Message = $"Task Details content:",
+                Data = rs
+            });
         }
 
         [AllowAnonymous]
@@ -41,22 +58,7 @@ namespace backend.Controllers
             });
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(Response<List<TaskDetailResult>>),StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetByList([FromQuery]Guid listId)
-        {
-
-            var rs = await _detailService.GetByListAsync(listId);
-            if (rs == null || !rs.Any()) return NotFound();
-
-            return Ok(new Response<List<TaskDetailResult>>
-            {
-                StatusCode = HttpStatusCode.OK,
-                Message = $"Task Details content:",
-                Data = rs
-            });
-        }
+        
 
         [AllowAnonymous]
         [HttpGet]

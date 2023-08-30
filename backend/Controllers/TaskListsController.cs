@@ -13,12 +13,12 @@ namespace backend.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/[controller]/[action]")]
-    public class TaskListController : ControllerBase
+    [Route("api/[controller]")]
+    public class TaskListsController : ControllerBase
     {
         private readonly ITaskListService _listService;
 
-        public TaskListController(ITaskListService listService)
+        public TaskListsController(ITaskListService listService)
         {
             _listService = listService;
         }
@@ -41,10 +41,10 @@ namespace backend.Controllers
             });
         }
 
-        [HttpGet]
+        [HttpGet("[action]/{workspaceId:Guid}")]
         [ProducesResponseType(typeof(Response<List<TaskListResult>>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetByWorkSpace([FromQuery]Guid workspaceId)
+        public async Task<IActionResult> GetByWorkSpace([FromRoute]Guid workspaceId)
         {
 
             var rs = await _listService.GetByWorkSpaceAsync(workspaceId);

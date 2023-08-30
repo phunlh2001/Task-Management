@@ -23,8 +23,8 @@ namespace backend.Controllers
             _seedingService = seedingService;
         }
 
-        [HttpGet("{number:int:min(0)}")]
-        public async Task<ActionResult<Response<string>>>WorkSpace(int number = 1)
+        [HttpPost("{number:int:min(0)}")]
+        public async Task<ActionResult<Response<string>>>WorkSpace([FromRoute]int number = 1)
         {
             var rs = _seedingService.SeedWorSpace(number);
             if(rs == false) return BadRequest();
@@ -34,8 +34,8 @@ namespace backend.Controllers
                 StatusCode = HttpStatusCode.OK
             });
         }
-        [HttpGet("{number:int:min(0)}")]
-        public async Task<ActionResult<Response<string>>>TaskList(Guid workSpaceId, int number = 1)
+        [HttpPost("{number:int:min(0)}")]
+        public async Task<ActionResult<Response<string>>>TaskList([FromQuery]Guid workSpaceId, [FromRoute]int number = 1)
         {
             
             _seedingService.SeedTaskList(workSpaceId,number);
@@ -45,8 +45,8 @@ namespace backend.Controllers
                 StatusCode = HttpStatusCode.OK
             });
         }
-        [HttpGet("{number:int:min(0)}")]
-        public async Task<ActionResult<Response<string>>>TaskDetail(Guid taskListId, int number = 1)
+        [HttpPost("{number:int:min(0)}")]
+        public async Task<ActionResult<Response<string>>>TaskDetail([FromQuery]Guid taskListId, [FromRoute]int number = 1)
         {
             
             _seedingService.SeedTaskList(taskListId,number);
