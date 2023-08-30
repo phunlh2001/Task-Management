@@ -11,7 +11,12 @@ namespace backend.Configurations
     public static class ApplicationLayerExtension
     {
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services){
-            
+            services.Configure<RouteOptions>(o=>{
+                o.LowercaseUrls = true;
+                o.LowercaseQueryStrings = true;
+            });
+
+
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IDataSeedingService, DataSeedingService>();
             services.AddScoped<IWorkSpaceService, WorkSpaceService>();

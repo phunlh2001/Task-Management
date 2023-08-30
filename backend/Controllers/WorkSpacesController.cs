@@ -16,13 +16,13 @@ namespace backend.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/[controller]/[action]")]
-    public class WorkSpaceController : ControllerBase
+    [Route("api/[controller]")]
+    public class WorkSpacesController : ControllerBase
     {
         private readonly IWorkSpaceService _workSpaceService;
         private readonly IAuthenticationService _authenService;
 
-        public WorkSpaceController(IWorkSpaceService workSpaceService
+        public WorkSpacesController(IWorkSpaceService workSpaceService
             , IAuthenticationService authenService)
         {
             _workSpaceService = workSpaceService;
@@ -49,10 +49,10 @@ namespace backend.Controllers
             });
         }
 
-        [HttpGet]
+        [HttpGet("[action]/{username}")]
         [ProducesResponseType(typeof(Response<List<WorkSpaceResult>>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetByUser([FromQuery]string username)
+        public async Task<IActionResult> GetByUser([FromRoute]string username)
         {
             var user = await _authenService.GetUserAsync(username);
             if (user == null) return NotFound();
