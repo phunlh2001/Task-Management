@@ -25,3 +25,6 @@ docker-compose.debug.yml
 *.log.*
 *.sqlite
 .DS_Store
+
+# Database
+database/data
