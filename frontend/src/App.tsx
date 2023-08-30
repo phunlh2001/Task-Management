@@ -7,10 +7,10 @@ import HomaPage from './features/HomePage/components/HomaPage';
 
 const App: React.FC = () => {
 
-  const[token, setToken] = useState<boolean>(true);
+  const[token, setToken] = useState<boolean>(false);
   
   // Kiem tra token tra ve co dung hay khong neu sai tra lai o input
-   if (!token) {  
+  if (!token) {  
     return <Login setToken={setToken}/>
   }
   return (

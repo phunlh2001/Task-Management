@@ -1,3 +1,7 @@
+.vs/
 obj/
 bin/
 backend.dll
+.git
+*.md
+.gitignore
