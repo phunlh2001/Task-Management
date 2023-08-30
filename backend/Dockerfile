@@ -1,19 +1,19 @@
-# Use the official .NET SDK image as the base image
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
-
-# Set working directory
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
+EXPOSE 80
 
-# Copy csproj and restore as distinct layers
-COPY backend/*.csproj ./
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ./*.csproj ./
 RUN dotnet restore
+COPY . .
+WORKDIR /src
+RUN dotnet build "backend.csproj" -c Release -o /app/build
 
-# Copy everything else and build
-COPY backend/. ./
-RUN dotnet publish -c Release -o out
+FROM build AS publish
+RUN dotnet publish "backend.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "backend.dll"]
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "backend.dll", "--environment=Development"]
