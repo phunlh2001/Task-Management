@@ -27,9 +27,7 @@ services:
       - database
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DB_HOST=database
-      - DB_NAME=TaskManager
-      - DB_SA_PASSWORD=password@123456#
+      - ConnectionStrings:DefaultConnection=Server=database;Database=TaskManager;UID=sa;Password=password@123456#
 
   database:
     container_name: sql_server
@@ -38,6 +36,7 @@ services:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "password@123456#"
     volumes:
-      - ./database/TaskManageScript.sql:/docker-entrypoint-initdb.d/TaskManageScript.sql
+      - ./database/:/docker-entrypoint-initdb.d/
+      - ./database/data/:/var/opt/mssql/data
     ports:
       - "1433:1433"
