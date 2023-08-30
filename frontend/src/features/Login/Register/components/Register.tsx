@@ -1,5 +1,7 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from 'react'
 import './Register.css'
 // interface sapce
@@ -20,10 +22,6 @@ const Register:React.FC<Props> = ({setShowRegister}) => {
   const [showRePass, setShowRePass] = useState(false)
 
 
-
-
-
-
   // KHUC VUC KHAI BAO BIEN =====================================================================================================
   const eyeIconPass = <FontAwesomeIcon icon={faEye} className='register__eye eye' onClick={e => setShowPass(!showPass)}/>
   const eyeIconRePass = <FontAwesomeIcon icon={faEye} className='register__eye eye' onClick={e => setShowRePass(!showRePass)}/>
@@ -33,17 +31,15 @@ const Register:React.FC<Props> = ({setShowRegister}) => {
   // ===============================================  HANDLE SPACE  =========================================================
 
 
-
-
-
-
-
-
-
   // Ham check cac chu viet hoa tra ve true
   const containsUppercase = (str: string) => {
     return /[A-Z]/.test(str);
   }
+
+  // Toast bao loi 
+  const displayLoginNotification = () => {
+    toast.success("cant be empty infomation");
+};
 
   // Ham check ky tu dac biet
   const checkSpecialSymbol = (str:string) =>{
@@ -78,7 +74,7 @@ const Register:React.FC<Props> = ({setShowRegister}) => {
     if (!(pass === repass)) {
       setRepassVld("PassWord must be same")
     }
-    else setRepassVld(""); return;
+    else setRepassVld(""); 
     
   }
 
@@ -93,29 +89,28 @@ const Register:React.FC<Props> = ({setShowRegister}) => {
   // ham chua condition check sau khi click button register
   const validateForm = () => {
     if (containsUppercase(userName) || checkSpecialSymbol(userName) || userName.length == 0 || pass.length == 0) {
-      alert('pls checking the message')
+      displayLoginNotification()
       return
     }
-    else return
+     return
   }
 
-
-
-
-
-
-
-  
 
   // =============================  RENDERING HERE  ================================================================
   return (
     <div className='register'>
-      {/* <div className="box-show">
-        {validate?"":<div className="ntf-box warning-ntfc ">
-          <p>Can not be empty bro</p>
-          <hr />
-        </div>}
-      </div> */}
+       <ToastContainer
+                position='top-right'
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='light'
+            />
       <h1>Enter your infomation</h1>
       <div className="register_box">
         <span><input type="text" placeholder='Username' value={userName} onChange={e => setuserName(e.target.value)} /></span>
