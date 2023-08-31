@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using backend.Defaults;
 using backend.Models.Dtos;
 using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace backend.Controllers
 {
@@ -23,39 +19,42 @@ namespace backend.Controllers
             _seedingService = seedingService;
         }
 
-        [HttpGet("{number:int:min(0)}")]
-        public async Task<ActionResult<Response<string>>>WorkSpace(int number = 1)
+        [HttpPost("{number:int:min(0)}")]
+        public async Task<ActionResult<Response<string>>> WorkSpace([FromRoute] int number = 1)
         {
             var rs = _seedingService.SeedWorSpace(number);
-            if(rs == false) return BadRequest();
-            return Ok(new Response<string>{
+            if (rs == false) return BadRequest();
+            return Ok(new Response<string>
+            {
                 Data = null,
                 Message = "Data has seeded",
                 StatusCode = HttpStatusCode.OK
             });
         }
-        [HttpGet("{number:int:min(0)}")]
-        public async Task<ActionResult<Response<string>>>TaskList(Guid workSpaceId, int number = 1)
+        [HttpPost("{number:int:min(0)}")]
+        public async Task<ActionResult<Response<string>>> TaskList([FromQuery] Guid workSpaceId, [FromRoute] int number = 1)
         {
-            
-            _seedingService.SeedTaskList(workSpaceId,number);
-            return Ok(new Response<string>{
+
+            _seedingService.SeedTaskList(workSpaceId, number);
+            return Ok(new Response<string>
+            {
                 Data = null,
                 Message = "Data has seeded",
                 StatusCode = HttpStatusCode.OK
             });
         }
-        [HttpGet("{number:int:min(0)}")]
-        public async Task<ActionResult<Response<string>>>TaskDetail(Guid taskListId, int number = 1)
+        [HttpPost("{number:int:min(0)}")]
+        public async Task<ActionResult<Response<string>>> TaskDetail([FromQuery] Guid taskListId, [FromRoute] int number = 1)
         {
-            
-            _seedingService.SeedTaskList(taskListId,number);
-            return Ok(new Response<string>{
+
+            _seedingService.SeedTaskList(taskListId, number);
+            return Ok(new Response<string>
+            {
                 Data = null,
                 Message = "Data has seeded",
                 StatusCode = HttpStatusCode.OK
             });
         }
-        
+
     }
 }
