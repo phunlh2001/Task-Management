@@ -18,6 +18,11 @@ namespace backend.Controllers
             _listService = listService;
         }
 
+        /// <summary>
+        /// Get one task list by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(typeof(Response<TaskListResult>), StatusCodes.Status200OK)]
@@ -36,6 +41,11 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Get workspace by taskList-ID
+        /// </summary>
+        /// <param name="workspaceId"></param>
+        /// <returns></returns>
         [HttpGet("workspace/{id:Guid}")]
         [ProducesResponseType(typeof(Response<List<TaskListResult>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -53,6 +63,10 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Get all task list
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("getAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -76,6 +90,11 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Create task list
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -97,6 +116,11 @@ namespace backend.Controllers
             );
         }
 
+        /// <summary>
+        /// Update task list
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update([FromBody] EditTaskList model)
@@ -112,11 +136,16 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Delete task list by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            if (id == null) return NotFound();
+            if (id == Guid.Empty) return NotFound();
             var result = await _listService.DeleteAsync(id);
             if (!result) return NotFound();
             return Ok(new Response<string>

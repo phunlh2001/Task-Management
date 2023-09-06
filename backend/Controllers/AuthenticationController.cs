@@ -41,8 +41,8 @@ namespace backend.Controllers
         ///     Sample request:
         ///
         ///         {
-        ///           "Username": "anqh123",
-        ///           "Password": "@1234"
+        ///           "Username": "AdminSystem",
+        ///           "Password": "@123456"
         ///         }
         ///         
         /// </remarks>
@@ -53,13 +53,16 @@ namespace backend.Controllers
         [ProducesDefaultResponseType(typeof(Response<TokenModel>))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
 
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest(new Response<string>{
+                Message = "Invalid credential.",
+                StatusCode = HttpStatusCode.BadRequest
+            });
             var tokens = await _userService.LoginAsync(model);
-            if (tokens == null) return NotFound();
+            if (tokens == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
             return Ok(new Response<TokenModel>
             {
@@ -79,8 +82,7 @@ namespace backend.Controllers
         ///            "UserName": "phuaa123",
         ///            "FullName": "Nguyen Van A",
         ///            "Password": "12345@",
-        ///            "ConfirmPassword": "12345@",
-        ///            "Email": "user@example.com"
+        ///            "ConfirmPassword": "12345@"
         ///         }
         ///         
         /// </remarks>
@@ -91,10 +93,13 @@ namespace backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterModel model)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest(new Response<string>{
+                StatusCode = HttpStatusCode.BadRequest,
+                Message = ModelState.Values.ToString()
+            });
             if (await _userService.RegisterMemberAsync(model) == false)
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             return Ok(new Response<string>
@@ -104,6 +109,11 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Get new token
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
         [HttpPut("refreshToken")]
         [ProducesResponseType(typeof(Response<TokenModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -133,6 +143,9 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Logout
+        /// </summary>
         [HttpDelete("revokeToken")]
         [Authorize]
         [ProducesResponseType(typeof(Response<string>), StatusCodes.Status200OK)]
@@ -152,6 +165,9 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Don't care this endpoint
+        /// </summary>
         [HttpGet("test")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -167,6 +183,9 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Check role
+        /// </summary>
         [Authorize]
         [HttpGet("whoAmI")]
         [ProducesResponseType(StatusCodes.Status200OK)]

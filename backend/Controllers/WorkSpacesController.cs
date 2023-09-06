@@ -21,6 +21,11 @@ namespace backend.Controllers
             _authenService = authenService;
         }
 
+        /// <summary>
+        /// Get workspace by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(typeof(Response<WorkSpaceResult>), StatusCodes.Status200OK)]
@@ -28,7 +33,7 @@ namespace backend.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            if (id == null) return BadRequest();
+            if (id == Guid.Empty) return BadRequest();
 
             var rs = await _workSpaceService.GetByIdAsync(id);
             if (rs == null) return NotFound();
@@ -41,6 +46,11 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Get workspace by username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         [HttpGet("{username}")]
         [ProducesResponseType(typeof(Response<List<WorkSpaceResult>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -60,6 +70,10 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Get all workspace
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("getAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -83,6 +97,11 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Create a workspacce
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create([FromBody] AddWorkSpace model)
@@ -103,6 +122,11 @@ namespace backend.Controllers
             );
         }
 
+        /// <summary>
+        /// Update workspace
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update([FromBody] EditWorkSpace model)
@@ -118,11 +142,16 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Delete workspace by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            if (id == null) return NotFound();
+            if (id == Guid.Empty) return NotFound();
             var result = await _workSpaceService.DeleteAsync(id);
             if (!result) return NotFound();
             return Ok(new Response<string>

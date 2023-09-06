@@ -19,6 +19,11 @@ namespace backend.Controllers
             _seedingService = seedingService;
         }
 
+        /// <summary>
+        /// Seed {number} data workspace
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         [HttpPost("{number:int:min(0)}")]
         public async Task<ActionResult<Response<string>>> WorkSpace([FromRoute] int number = 1)
         {
@@ -31,6 +36,12 @@ namespace backend.Controllers
                 StatusCode = HttpStatusCode.OK
             });
         }
+
+        /// <summary>
+        /// Seed {number} data task list
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         [HttpPost("{number:int:min(0)}")]
         public async Task<ActionResult<Response<string>>> TaskList([FromQuery] Guid workSpaceId, [FromRoute] int number = 1)
         {
@@ -43,6 +54,12 @@ namespace backend.Controllers
                 StatusCode = HttpStatusCode.OK
             });
         }
+
+        /// <summary>
+        /// Seed {number} data task detail
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         [HttpPost("{number:int:min(0)}")]
         public async Task<ActionResult<Response<string>>> TaskDetail([FromQuery] Guid taskListId, [FromRoute] int number = 1)
         {

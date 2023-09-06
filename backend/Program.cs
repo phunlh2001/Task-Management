@@ -1,14 +1,14 @@
+using System.Net;
 using System.Text.Json;
 using backend.Configurations;
+using backend.Models.Dtos;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager Configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddControllers()
-    .AddJsonOptions(o=> {
-        o.JsonSerializerOptions.PropertyNamingPolicy = null;
-    });
+builder.Services.AddControllerExtension();
 
 
 builder.Services.AddApplicationLayer();

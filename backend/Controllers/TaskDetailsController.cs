@@ -18,6 +18,11 @@ namespace backend.Controllers
             _detailService = detailService;
         }
 
+        /// <summary>
+        /// Get one task list by taskDetail-ID
+        /// </summary>
+        /// <param name="Guid"></param>
+        /// <returns></returns>
         [HttpGet("list/{id:Guid}")]
         [ProducesResponseType(typeof(Response<List<TaskDetailResult>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -34,6 +39,11 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Get one task detail by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(typeof(Response<TaskDetailResult>), StatusCodes.Status200OK)]
@@ -52,6 +62,10 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Get all task detail data
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("getAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -75,6 +89,11 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Create task detail
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -96,6 +115,11 @@ namespace backend.Controllers
             );
         }
 
+        /// <summary>
+        /// Update one task detail
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update([FromBody] EditTaskDetail model)
@@ -111,6 +135,11 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Delete one task detail by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
