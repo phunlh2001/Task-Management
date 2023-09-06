@@ -41,8 +41,8 @@ namespace backend.Controllers
         ///     Sample request:
         ///
         ///         {
-        ///           "Username": "anqh123",
-        ///           "Password": "@1234"
+        ///           "Username": "AdminSystem",
+        ///           "Password": "@123456"
         ///         }
         ///         
         /// </remarks>
@@ -82,8 +82,7 @@ namespace backend.Controllers
         ///            "UserName": "phuaa123",
         ///            "FullName": "Nguyen Van A",
         ///            "Password": "12345@",
-        ///            "ConfirmPassword": "12345@",
-        ///            "Email": "user@example.com"
+        ///            "ConfirmPassword": "12345@"
         ///         }
         ///         
         /// </remarks>
@@ -110,6 +109,11 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Get new token
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
         [HttpPut("refreshToken")]
         [ProducesResponseType(typeof(Response<TokenModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -139,6 +143,9 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Logout
+        /// </summary>
         [HttpDelete("revokeToken")]
         [Authorize]
         [ProducesResponseType(typeof(Response<string>), StatusCodes.Status200OK)]
@@ -158,6 +165,9 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Don't care this endpoint
+        /// </summary>
         [HttpGet("test")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -173,6 +183,9 @@ namespace backend.Controllers
             });
         }
 
+        /// <summary>
+        /// Check role
+        /// </summary>
         [Authorize]
         [HttpGet("whoAmI")]
         [ProducesResponseType(StatusCodes.Status200OK)]
