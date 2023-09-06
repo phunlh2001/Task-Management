@@ -12,7 +12,6 @@ const searchIcon = <FontAwesomeIcon icon={faMagnifyingGlass} />
 
   return (
     <div className='navbar'>
-      <div className="logo"><img src={Logo} alt=""/></div>
       <div className="searchbox">
         <div className="searchbox__input">
         <input type="text" placeholder='Searching ......' />

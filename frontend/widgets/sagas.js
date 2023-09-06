@@ -1,0 +1,1 @@
+// tác vụ bất đồng bộ và các request để tương tác với server api

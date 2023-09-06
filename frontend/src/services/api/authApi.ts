@@ -1,4 +1,4 @@
-import { Account, Token } from '@/models';
+import { Account, Token } from 'models';
 import axiosClient from './axiosClient';
 
 export const authApi = {
