@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import './HomaPage.css'
-import Task from 'features/Task/components/Task'
+import Task from '@/features/Task/components/Task'
 
 type Props = {}
 
