@@ -23,7 +23,7 @@ namespace backend.Models.Dtos.Authentication
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password not match!")]
         public string ConfirmPassword { get; set; }
-        [EmailAddress]
-        public string Email { get; set; }
+        // [EmailAddress]
+        // public string Email { get; set; }
     }
 }
