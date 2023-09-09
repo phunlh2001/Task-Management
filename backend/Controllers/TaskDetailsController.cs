@@ -23,7 +23,7 @@ namespace backend.Controllers
         /// </summary>
         /// <param name="Guid"></param>
         /// <returns></returns>
-        [HttpGet("list/{id:Guid}")]
+        [HttpGet("byList/{listId:Guid}")]
         [ProducesResponseType(typeof(Response<List<TaskDetailResult>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByList([FromRoute] Guid listId)
