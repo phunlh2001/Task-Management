@@ -143,6 +143,14 @@
     gap: 30px;
 }
 
+.messagevalid{
+    color: red;
+    width: 100%;
+    height: 30px;
+    padding-left: 35px;
+    font-size: 13px;
+}
+
 @keyframes widthAnimation{
     from{
         width: 0%;

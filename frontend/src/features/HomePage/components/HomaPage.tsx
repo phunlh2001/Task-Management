@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import './HomaPage.css'
-import Task from '@/features/Task/components/Task'
+import Task from 'features/Task/components/Task'
+import axios from 'axios'
 
 type Props = {}
 
@@ -14,10 +15,14 @@ const HomaPage = (props: Props) => {
   const[TaskArr, setTaskArr] = useState<string[]>([])
   const[showTask, setShowTask] = useState<boolean>(false)
 
+  const accessToken = sessionStorage.getItem("token");
+
+
   const handleCreateTB = ()=>{
     setShowBox(showBox => !showBox)
     setOffCreate(false)
   }
+
 
   const handleAddNewTask = () =>{
     if (FTask === '') {
@@ -28,6 +33,13 @@ const HomaPage = (props: Props) => {
     setShowTask(!showTask)
   }
 
+  useEffect(() => {
+  axios.get('http://localhost:5000/api/lists/getAll')
+  .then(rsp =>{
+    console.log(rsp.data);
+  })
+  },[])
+  
 
   return (
     <div className='homepage'>

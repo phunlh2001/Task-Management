@@ -47,7 +47,7 @@ const LoginBox: React.FC<Props> = ({ setShowRegister, setToken }) => {
                             console.log(response);
                     }
                 }).catch(error => {
-                    if (error.response.status === 400) {
+                    if (error.response.status === 400 ) {
                         toast.warning("userName or password was wrong");
                     }
                 })
