@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import React, { useEffect, useState } from 'react'
 import "react-toastify/dist/ReactToastify.css";
 import './Register.css'
-import axios from './axios';
+import axios from 'axios';
 import { error } from 'console';
 // interface sapce
 type Props = {
