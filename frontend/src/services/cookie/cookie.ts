@@ -1,5 +1,5 @@
 import * as cookie from 'js-cookie';
-import { TOKEN_NAME } from '@/constants';
+import { TOKEN_NAME } from '../../constants';
 
 const accessTokenConfig: cookie.CookieAttributes | undefined = {
   sameSite: 'strict'

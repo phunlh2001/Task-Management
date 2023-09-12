@@ -1,0 +1,98 @@
+.tasklist{
+    width: 100%;
+    display: flex;
+}
+
+.tasklist__box{
+    width: 500px;
+    height: 600px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 3px;
+    background-image: linear-gradient(-225deg,rgba(69, 0, 114, 0.5)
+    0%,rgba(255,255,255,0.5) 40%,rgba(13, 203, 203, 0.5) 60%,rgba(0, 255, 255, 0.5) 100%),linear-gradient(45deg,rgba(48, 35, 174, 0.5) 0%,rgba(255, 0, 153, 0.5) 100%);
+    padding: 20px 20px;
+}
+
+.tasklist__add{
+    display: flex;
+    width: 100%;
+    height: 50px;
+    gap: 20px;
+    align-items: center;
+}
+
+.tasklist__add__input{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tasklist__add__input input{
+    appearance: none;
+	border: none;
+	outline: none;
+	border-bottom: .2em solid #ffffff;
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: .2em .2em 0 0;
+	padding: .4em;
+	color: white;
+  width: 100%;
+}
+
+.tasklist__add__btn{
+    font-family: system-ui, sans-serif;
+    cursor: pointer;
+    font-weight: bold;  
+    border: none;
+    height: 50%;
+    width: 25%;
+    color: white;
+    outline: none;
+    border-radius: 10px;
+}
+
+.tasklist__add__btn {
+    --c:  #25c2e7; /* the color*/
+    
+    box-shadow: 0 0 0 .1em inset var(--c); 
+    --_g: linear-gradient(var(--c) 0 0) no-repeat;
+    background: 
+      var(--_g) calc(var(--_p,0%) - 100%) 0%,
+      var(--_g) calc(200% - var(--_p,0%)) 0%,
+      var(--_g) calc(var(--_p,0%) - 100%) 100%,
+      var(--_g) calc(200% - var(--_p,0%)) 100%;
+    background-size: 50.5% calc(var(--_p,0%)/2 + .5%);
+    outline-offset: .1em;
+    transition: background-size .4s, background-position 0s .4s;
+  }
+  .tasklist__add__btn:hover {
+    --_p: 100%;
+    transition: background-position .4s, background-size 0s;
+  }
+  .tasklist__add__btn:active {
+    box-shadow: 0 0 9e9q inset #0009; 
+    background-color: var(--c);
+    color: #fff;
+  }
+
+  .tasklist__list{
+    width: 100%;
+    height: 100%;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .tasklist__list li{
+    text-decoration: none;
+    list-style-type: none;
+    color: white;
+    width: 100%;
+    height: 20px;
+  }
+  
+

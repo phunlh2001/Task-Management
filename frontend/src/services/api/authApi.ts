@@ -1,4 +1,4 @@
-import { Account, Token } from '@/models';
+import { Account, Token } from 'models';
 import axiosClient from './axiosClient';
 
 export const authApi = {
@@ -15,5 +15,14 @@ export const authApi = {
   register: (payload: Token) => {
     const url = '/auth/register'
     return axiosClient.post(url, { refreshToken: payload.refreshToken })
+  },
+
+  getAccessToken(payload: Token) {
+    const url = 'auth/refreshToken'
+    return axiosClient.post(url, { refreshToken: payload.refreshToken }, {
+      headers: {
+        'Authorization': `Bearer ${payload.accessToken}`
+      }
+    })
   }
 }

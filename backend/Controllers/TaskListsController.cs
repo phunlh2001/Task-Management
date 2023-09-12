@@ -46,7 +46,7 @@ namespace backend.Controllers
         /// </summary>
         /// <param name="workspaceId"></param>
         /// <returns></returns>
-        [HttpGet("workspace/{id:Guid}")]
+        [HttpGet("byWorkspace/{workspaceId:Guid}")]
         [ProducesResponseType(typeof(Response<List<TaskListResult>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByWorkSpace([FromRoute] Guid workspaceId)

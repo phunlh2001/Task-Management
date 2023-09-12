@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import "./LoginBox.css"
+import axios from 'axios';
+import { error } from 'console';
 
 type Props = {
     setShowRegister: (val: boolean) => void
@@ -10,23 +12,47 @@ type Props = {
 
 const LoginBox: React.FC<Props> = ({ setShowRegister, setToken }) => {
 
-    const [userName, setUserName] = useState<string>()
-    const [password, setPassword] = useState<string>()
+//tài khoản admin
+// {
+//     "UserName": "AdminSystem",
+//     "Password": "@123456"
+//   }
+
+    const [userName, setUserName] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
 
 
-    const displayLoginNotification = () => {
-        toast.success("LoggedIn Successful");
-    };
+    const validate = () => {
+        if (userName?.length === 0 || password?.length === undefined) {
+            toast.warning("cant be empty");
+            return false
+        }
+        if (userName?.length !== 0 && password?.length !== undefined) {
+            return true
+        }
+    }
 
-    const handleSubmit = (e: any) => {
+
+    const handleSubmit = async (e: any) => {
         e.preventDefault()
-        if (userName?.length == 0 || password?.length === undefined) {
-            displayLoginNotification()
-            return
+        if (validate()) {
+           await axios.post('http://localhost:5000/api/auth/login', {
+                UserName: userName,
+                Password:password
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                            setToken(true)
+                            sessionStorage.setItem("jwt", response.data.Data.AccessToken);
+                            console.log(response);
+                    }
+                }).catch(error => {
+                    if (error.response.status === 400 || error.response.status === 500) {
+                        toast.warning("userName or password was wrong");
+                    }
+                })
         }
-        if(userName?.length != 0 && password?.length !== undefined){
-            return
-        }
+
     }
 
 

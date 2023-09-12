@@ -1,4 +1,4 @@
-import { TOKEN_NAME } from '@/constants'
+import { TOKEN_NAME } from '../../constants'
 import { getCookieData, removeCookieData, setCookieData } from '../cookie/cookie'
 
 const getAccessToken = () => {
