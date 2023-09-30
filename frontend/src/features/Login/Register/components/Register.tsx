@@ -100,17 +100,13 @@ const Register: React.FC<Props> = ({ setShowRegister }) => {
   const validation = () => {
     if (containsUppercase(userName) || checkSpecialSymbol(userName) || userName.length === 0 || pass.length === 0) {
       displayLogErr('pls enter all infomation')
-      console.log(1);
       return false
     }
     if(!userNameValidate() || !passValida() || !rePassValida()) {
-      console.log(3);
       displayLogErr('Recheck the red note in register space')
       return false
     }
     if (userNameValidate() && passValida() && rePassValida()) {
-      displayLogSuccess("look like ur infomation is success, go to login")
-      console.log(2);
       return true
     }
    
@@ -121,21 +117,23 @@ const Register: React.FC<Props> = ({ setShowRegister }) => {
   const handleRst = (e: any) => {
     e.preventDefault()
     if (validation()) {
-      console.log('chay api');
       let payload = {
         UserName: userName,
         FullName:'nothing',
-        Password:pass,
-        ConfirmPassword:repass
+        Password: pass,
+        ConfirmPassword: repass
     }
     axios.post('http://localhost:5000/api/auth/register', payload)
     .then((r) => {
-        console.log(r.data);
         localStorage.setItem('token', r.data.token)
+        if (r.data.Data.status === 200) {
+          displayLogSuccess("look like ur infomation is success, go to login")
+        }
     })
     .catch((e) => {
-        if (e.response.data.errors !== undefined) {
-            console.log('ko co loi');
+      console.log(e.response.status);
+        if (e.response.status === 500 || e.response.status === 400) {
+            displayLogErr("userName maybe is duplicate");
         }
     });
     }

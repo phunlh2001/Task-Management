@@ -15,7 +15,7 @@ const HomaPage = (props: Props) => {
   const[TaskArr, setTaskArr] = useState<string[]>([])
   const[showTask, setShowTask] = useState<boolean>(false)
 
-  const accessToken = sessionStorage.getItem("jwt");
+  // const accessToken = sessionStorage.getItem("jwt");
 
 
   const handleCreateTB = ()=>{
@@ -33,22 +33,22 @@ const HomaPage = (props: Props) => {
     setShowTask(!showTask)
   }
 
-  useEffect(() => {
-    console.log(accessToken);
-    axios.request({
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      },
-      method: "GET",
-      url: `http://localhost:5000/api/lists/getAll`
-    }).then(response => {
-      console.log(response.data);
-    }).catch(err => {
-     console.log(err.response.status === 401);
+  // useEffect(() => {
+  //   console.log(accessToken);
+  //   axios.request({
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`
+  //     },
+  //     method: "GET",
+  //     url: `http://localhost:5000/api/lists/getAll`
+  //   }).then(response => {
+  //     console.log(response.data);
+  //   }).catch(err => {
+  //    console.log(err.response.status === 401);
      
-    })
+  //   })
     
-  })
+  // })
   
 
   return (

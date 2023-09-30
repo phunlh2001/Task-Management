@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
+import AuthContext from 'features/Login/AuthContext';
 import "react-toastify/dist/ReactToastify.css";
 import "./LoginBox.css"
-import axios from 'axios';
-import { error } from 'console';
 
 type Props = {
     setShowRegister: (val: boolean) => void
-    setToken: (val: boolean) => void
 }
 
-const LoginBox: React.FC<Props> = ({ setShowRegister, setToken }) => {
+const LoginBox: React.FC<Props> = ({ setShowRegister }) => {
 
 //tài khoản admin
 // {
@@ -20,6 +18,8 @@ const LoginBox: React.FC<Props> = ({ setShowRegister, setToken }) => {
 
     const [userName, setUserName] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+
+    const {login} = useContext(AuthContext)
 
 
     const validate = () => {
@@ -33,24 +33,14 @@ const LoginBox: React.FC<Props> = ({ setShowRegister, setToken }) => {
     }
 
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit =  (e: any) => {
         e.preventDefault()
         if (validate()) {
-           await axios.post('http://localhost:5000/api/auth/login', {
-                UserName: userName,
+            let payload = {
+                UserName:userName,
                 Password:password
-            })
-                .then((response) => {
-                    if (response.status === 200) {
-                            setToken(true)
-                            sessionStorage.setItem("jwt", response.data.Data.AccessToken);
-                            console.log(response);
-                    }
-                }).catch(error => {
-                    if (error.response.status === 400 || error.response.status === 500) {
-                        toast.warning("userName or password was wrong");
-                    }
-                })
+            }
+             login(payload)
         }
 
     }

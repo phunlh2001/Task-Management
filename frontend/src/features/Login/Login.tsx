@@ -5,12 +5,12 @@ import Register from './Register/components/Register';
 import { useActions } from 'hooks/useActions';
 import { authAction } from './authSlice';
 import { Account } from 'models';
+import AuthContext, { AuthContextProvider } from './AuthContext';
 
 type Props = {
-  setToken:(val:boolean)=> void
 };
 
-const Login: React.FC<Props> = ({setToken}) => {
+const Login: React.FC<Props> = ({}) => {
   
   const { login } = useActions(authAction)
   const [username, setUsername] = useState<string>('')
@@ -23,7 +23,8 @@ const Login: React.FC<Props> = ({setToken}) => {
   }
   
   return (
-    <div className='login_page'>
+    <AuthContextProvider>
+      <div className='login_page'>
         <div className="login">
             <div className="login__title">
                 <h1>
@@ -35,9 +36,11 @@ const Login: React.FC<Props> = ({setToken}) => {
                     <img src="" alt="" />   
                 </div>
             </div>
-            {showRegister?<Register setShowRegister={setShowRegister}/>:<LoginBox setShowRegister={setShowRegister} setToken={setToken}/>}
+            {showRegister?<Register setShowRegister={setShowRegister}/>:<LoginBox setShowRegister={setShowRegister} />}
         </div>    
     </div>
+    </AuthContextProvider>
+    
   ) 
 }
 
